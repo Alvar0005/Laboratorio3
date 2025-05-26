@@ -18,7 +18,7 @@ class Game{
     public int getPrice(){return price;}
     public int getQuality(){return quality;}
     public String toString(){
-        return name + " - " + category + " - $" + price + " - Calidad: " + quality;
+        return name + " | " + category + " | $" + price + " | Calidad: " + quality;
     }
 }
 class Dataset{
