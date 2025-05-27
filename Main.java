@@ -124,7 +124,7 @@ class Dataset{
             case "bubbleSort": bubbleSort(data, comp); break;
             case "insertionSort": insertionSort(data, comp); break;
             case "selectionSort": selectionSort(data, comp); break;
-            case "mergeSort": data=mergeSort(data, comp); break;
+            case "mergeSort": data = new ArrayList(mergeSort(data, comp)); break;
             case "quickSort": quickSort(data, 0, data.size()-1, comp); break;
             case "countingSort":
                 if(atributo.equals("quality")){
