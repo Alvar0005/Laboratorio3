@@ -126,110 +126,108 @@ class Dataset{
         sortedByAttribute=atributo;
     }
     private void bubbleSort(List<Game> lista, Comparator<Game> comp){
-    int tam=lista.size();
-    for(int i=0; i<tam-1; i++){
-        for(int j=0; j<tam-i-1; j++){
-            if(comp.compare(lista.get(j), lista.get(j + 1))>0){
-                Collections.swap(lista, j, j + 1);
+        int tam=lista.size();
+        for(int i=0; i<tam-1; i++){
+            for(int j=0; j<tam-i-1; j++){
+                if(comp.compare(lista.get(j), lista.get(j + 1))>0){
+                    Collections.swap(lista, j, j + 1);
+                }
             }
         }
-    }
     }
     private void insertionSort(List<Game> lista, Comparator<Game> comp){
-    int tam=lista.size();
-    for(int i=1; i<tam; i++){
-        Game act=lista.get(i);
-        int j=i-1;
-        while(j>=0 && comp.compare(lista.get(j), act)>0){
-            lista.set(j+1, lista.get(j));
-            j--;
+        int tam=lista.size();
+        for(int i=1; i<tam; i++){
+            Game act=lista.get(i);
+            int j=i-1;
+            while(j>=0 && comp.compare(lista.get(j), act)>0){
+                lista.set(j+1, lista.get(j));
+                j--;
+            }
+            lista.set(j + 1, act);
         }
-        lista.set(j + 1, act);
-    }
     }
     private void selectionSort(List<Game> lista, Comparator<Game> comp){
-    int tam=lista.size();
-    for(int i=0; i<tam-1; i++){
-        int indMin=i;
-        for(int j=i+1; j<tam; j++){
-            if(comp.compare(lista.get(j), lista.get(indMin))<0){
-                indMin=j;
+        int tam=lista.size();
+        for(int i=0; i<tam-1; i++){
+            int indMin=i;
+            for(int j=i+1; j<tam; j++){
+                if(comp.compare(lista.get(j), lista.get(indMin))<0){
+                    indMin=j;
+                }
             }
+            Collections.swap(lista, i, indMin);
         }
-        Collections.swap(lista, i, indMin);
-    }
     }
     private void quickSort(List<Game> lista, int ini, int fin, Comparator<Game> comp){
-    if(ini<fin){
-        int piv=particionar(lista, ini, fin, comp);
-        quickSort(lista, ini, piv-1, comp);
-        quickSort(lista, piv+1, fin, comp);
-    }
+        if(ini<fin){
+            int piv=particionar(lista, ini, fin, comp);
+            quickSort(lista, ini, piv-1, comp);
+            quickSort(lista, piv+1, fin, comp);
+        }
     }
     private int particionar(List<Game> lista, int ini, int fin, Comparator<Game> comp){
-    Game pivote=lista.get(fin);
-    int i=ini-1;
-
-    for(int j=ini; j<fin; j++){
-        if(comp.compare(lista.get(j), pivote)<=0){
-            i++;
-            Collections.swap(lista, i, j);
+        Game pivote=lista.get(fin);
+        int i=ini-1;
+        for(int j=ini; j<fin; j++){
+            if(comp.compare(lista.get(j), pivote)<=0){
+                i++;
+                Collections.swap(lista, i, j);
+            }
         }
-    }
-    Collections.swap(lista, i+1, fin);
-    return i + 1;
+        Collections.swap(lista, i+1, fin);
+        return i + 1;
     }
     private List<Game> mergeSort(List<Game> lista, Comparator<Game> comp){
-    if(lista.size()<=1){
-        return lista;
-    }
-    int mitad=lista.size()/2;
-    List<Game> izq=mergeSort(lista.subList(0, mitad), comp);
-    List<Game> der=mergeSort(lista.subList(mitad, lista.size()), comp);
-    
-    return mergear(izq, der, comp);
+        if(lista.size()<=1){
+            return lista;
+        }
+        int mitad=lista.size()/2;
+        List<Game> izq=mergeSort(lista.subList(0, mitad), comp);
+        List<Game> der=mergeSort(lista.subList(mitad, lista.size()), comp);
+        return mergear(izq, der, comp);
     }
     private List<Game> mergear(List<Game> izq, List<Game> der, Comparator<Game> comp){
-    List<Game> resultado = new ArrayList<>();
-    int i=0, j=0;
-
-    while(i<izq.size() && j<der.size()){
-        if(comp.compare(izq.get(i), der.get(j))<=0){
-            resultado.add(izq.get(i));
-            i++;
-        }else{
-            resultado.add(der.get(j));
-            j++;
+        List<Game> resultado = new ArrayList<>();
+        int i=0, j=0;
+        while(i<izq.size() && j<der.size()){
+            if(comp.compare(izq.get(i), der.get(j))<=0){
+                resultado.add(izq.get(i));
+                i++;
+            }
+            else{
+                resultado.add(der.get(j));
+                j++;
+            }
         }
-    }
-    while(i<izq.size()){
-        resultado.add(izq.get(i++));
-    }
-    while(j<der.size()){
-        resultado.add(der.get(j++));
-    }
-    return resultado;
+        while(i<izq.size()){
+            resultado.add(izq.get(i++));
+        }
+        while(j<der.size()){
+            resultado.add(der.get(j++));
+        }
+        return resultado;
     }
     public void countingSort(){
-    int maxCalidad=100;
-    int[] conteo = new int[maxCalidad+1];
-    for(Game juego : data){
-        conteo[juego.getQuality()]++;
-    }
-    for(int i=1; i<=maxCalidad; i++){
-        conteo[i]+=conteo[i-1];
-    }
-    Game[] ordenado = new Game[data.size()];
-    for(int i=data.size()-1; i>=0; i--){
-        Game juego=data.get(i);
-        int pos=conteo[juego.getQuality()]-1;
-        ordenado[pos]=juego;
-        conteo[juego.getQuality()]--;
-    }
-    data.clear();
-    Collections.addAll(data, ordenado);
-
-    this.sortedByAttribute="quality";
+        int maxCalidad=100;
+        int[] conteo = new int[maxCalidad+1];
+        for(Game juego : data){
+            conteo[juego.getQuality()]++;
+        }
+        for(int i=1; i<=maxCalidad; i++){
+            conteo[i]+=conteo[i-1];
+        }
+        Game[] ordenado = new Game[data.size()];
+        for(int i=data.size()-1; i>=0; i--){
+            Game juego=data.get(i);
+            int pos=conteo[juego.getQuality()]-1;
+            ordenado[pos]=juego;
+            conteo[juego.getQuality()]--;
+        }
+        data.clear();
+        Collections.addAll(data, ordenado);
+        
+        this.sortedByAttribute="quality";
     }
     public void imprimir(){
         StringBuilder sb = new StringBuilder();
